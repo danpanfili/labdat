@@ -95,8 +95,8 @@ class Load:
     class Dict:
         def All():
             run_key,source_name = Load.Keys.Run()
-            trial_dict = [Load.Keys.Trial(tools.Key2Path(key,'_')) for key in run_key]
-            data_dict = [Load.Keys.Data(tools.Key2Path(key,'_')) for key in run_key]
+            trial_dict = [Load.Keys.Trial(key) for key in run_key]
+            data_dict = [Load.Keys.Data(key) for key in run_key]
             run_dict = [{
                 "key":key,
                 "sources":tools.Array2Key(source,","),
@@ -142,8 +142,12 @@ class Load:
         def Data(run_key):
             data_dict = []
             if tools.Contains(run_key,"BerkeleyOutdoorWalk"):
-                shadow_data = source.shadow.Load.Keys(run_key)
-                if shadow_data: data_dict += shadow_data
+                shadow_dict = source.shadow.Load.Keys(run_key)
+                if shadow_dict: data_dict += shadow_dict
+                
+                pupil_dict = source.pupil.Load.Keys(run_key)
+                if pupil_dict: data_dict += pupil_dict
+
             return data_dict
     # class Data:
 

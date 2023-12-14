@@ -5,7 +5,8 @@ import tools,vars
 class Load:
     def Trials(run_key):
         trial_path = []
-        for dirpath, dirnames, filenames in os.walk(rf'{vars.raw_path}\{run_key}\Pupil'):
+        run_path = tools.Key2Path(run_key,"_")
+        for dirpath, dirnames, filenames in os.walk(rf'{vars.raw_path}\{run_path}\Pupil'):
             path = [os.path.join(dirpath, file) for file in filenames if file == "annotations.csv"]
             if path:
                 trial_path.append(path[0])

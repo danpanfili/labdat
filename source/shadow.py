@@ -17,7 +17,7 @@ class Load:
         config_path = f"{path}\\configuration.mNode"
 
         if not os.path.exists(config_path):
-            print(f"Bad Path, no config file: {config_path}")
+            # print(f"Bad Path, no config file: {config_path}")
             return data_path,config_path
 
         data_path = f"{path}\\{data_file[0]}"
@@ -38,7 +38,7 @@ class Load:
             [data_marker, data_type] = tools.Key2Array(data_header,".")
             
             if 'ltx' not in data_type: #ltx is Linear Translation X, not in some subjects but think they are the unused sample ones
-                print("Bad Subject, no Linear Translation Data")
+                # print("Bad Subject, no Linear Translation Data")
                 return []
 
             data_key, data_index = [],[]
@@ -58,7 +58,7 @@ class Load:
                 "key":key,
                 "index":index,
                 "method":"default",
-                "experiment_key": run_key
+                "run_key": run_key
                 } 
                 for key,index in zip(data_key,data_index)]
 
