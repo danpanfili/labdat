@@ -1,0 +1,60 @@
+dir:
+  INPUT: /content/example/data
+  OUTPUT: /content/example/output
+  CONFIG: /content/example/cfg
+  SCRIPTS: /content/example/scripts
+
+settings:
+  CUDA: yes
+  GPU_INDEX: -1
+  SCOPE:
+    experiment: BerkeleyOutdoorWalk
+    subject: [Subject08, Subject10]
+
+pipeline:
+- stage: Database
+  name: raw
+  data: raw
+  folder: database
+    
+  overwrite: true
+
+  pipeline:
+  - stage: Initialize
+  - stage: Import
+
+- stage: Preprocess
+  folder: preproc
+  stage:
+  - AllSources:
+
+- stage: ExtractVideoFrames
+  source: Pupil
+  filename: world.mp4
+  sample_framerate: 4 # This would sample 4 frames per second of video
+  output_dir: world/images
+
+- stage: CreateRetinalVideo
+  source: Pupil
+  filename: world.mp4
+  output_file: world_retinal.mp4
+  intrinsics: world.intrinsics
+
+- stage: COLMAP
+  source: Pupil
+  folder:
+    workspace: world
+    images: images
+  file:
+    config: world.ini
+    vocab_tree: tree.bin
+
+  camera_models:
+  type: OPENCV_FISHEYE
+  intrinsics: world.intrinsics
+  alpha: 1
+
+  pipeline:
+  - feature_extractor:
+  - sequential_matcher:
+  - image_undistorter:

@@ -1,29 +1,44 @@
-import sys
-from database import Database as db
-import keys, data
-import numpy as np
-np.set_printoptions(2)
+#### LABDAT STAGING ######
+import yaml
+from labdat import labdat as ld
 
-overwrite = False
+config_path = 'config.yml'
+with open(config_path) as file: 
+    config = yaml.safe_load(file)
 
-##########################################
-key = keys.Database( db('keys') )
-key.Update(True)
+data = []
 
-##########################################
-# raw_csvs = key.db.Get(table= 'raw', filter= ["filetype='csv'", "source='Pupil'"])
-raw_csvs = key.db.Get(table= 'raw', filter="filetype='csv'")
-for i, csv in enumerate(raw_csvs):
-    print(f"\nLoading {i+1} of {len(raw_csvs)}, csv from: {csv['key']}")
+for stage in config['pipeline']:
+    name = stage['stage']
+    if stage['stage'] in ld.__dir__():
+        data.append(getattr(ld, name).New(stage))
+    else:
+        print(f"ERROR: Couldn't find stage: {name}")
 
-    data.Data.Load.CSV(csv, 'raw', overwrite)
-############################################
+raw_db = ld.Database.New(config['pipeline'][0])
+raw_db
 
-sys.path.append(r'Z:\analysis')
+# from InitializeDatabase import Main as InitDB
+# InitDB(config, config['stages'][0])
 
-import analysis.BerkeleyOutdoorWalk.main as bow
-bow.Test(db)
+# from UploadRawData import Main as UploadRaw
+# UploadRaw(config)
 
-############################################
 
-print('Done')
+#### Docker file and dependencies #####
+
+#### Input arguments ######
+
+#### Parse keys and file information
+
+#### Parse data and save in optimized format
+
+#### Preprocess data from different streams
+
+#### Integrate preprocessed data
+
+#### Export preprocessed data
+
+#### Visualize
+
+print("Done!")

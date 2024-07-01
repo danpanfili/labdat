@@ -1,0 +1,21 @@
+
+
+
+        # #     with open(tp, 'rb')
+
+
+        # for source_name, source_path, source_key in zip(df['source'], df['path'], df['key']):
+        #     source_files = [s['files'] for s in source if s['dirname'] == source_name][0]
+        #     for sf in source_files:
+        #         if 'subfolder_contains' in sf.keys():
+        #             data_path = find_subfolder_with_file(source_path, sf['subfolder_contains'])
+        #         else:
+        #             data_path = source_path
+
+        #         if data_path is None or not data_path: 
+        #             continue
+
+        #         data_path = os.sep.join([data_path, sf['filename']])
+
+        #         if(os.path.exists(data_path)):
+        #             1

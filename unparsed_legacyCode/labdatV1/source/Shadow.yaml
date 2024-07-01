@@ -1,0 +1,29 @@
+name: MotionShadow
+dirname: Shadow
+description: Motion Shadow data files, generated based on Berkeley Outdoor Walks data
+  streams.
+
+files:
+- filename: take*_stream.csv
+  rename_vars:
+    default: Generic.
+    Gq: Global.RotQuat
+    Gdq: Global.RotQuatDelta
+    Lq: Local.RotQuat
+    r: Local.RotEuler
+    la: Global.Acc
+    lv: Global.Vel
+    lt: Global.Pos
+    c: Global.PositionConstraint
+    a: Calibrated.Accelerometer
+    m: Calibrated.Magnetometer
+    g: Calibrated.Gyroscope
+    A: Raw.Accelerometer
+    M: Raw.Magnetometer
+    G: Raw.Gyroscope
+
+- filename: take.mTake
+  filetype: xml
+  
+- filename: configuration.mNode
+  filetype: xml

@@ -1,0 +1,1 @@
+Ù÷{"OS": "windows10", "CUDA": true, "OVERWRITE": true, "paths": [{"base": "Z:"}, {"workspace": "DataPipeline"}, {"rawdata": ["DataPipeline", "rawdata"]}], "stages": [{"name": "InitializeDatabase"}, {"name": "UploadRawData"}, {"name": "Preprocess"}]}

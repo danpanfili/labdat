@@ -1,0 +1,70 @@
+name: PupilLabs/Core
+dirname: Pupil
+description: Pupil Labs Core data files, generated based on Berkeley Outdoor Walks
+  data streams.
+
+files:
+- filename: pupil_positions.csv
+  subfolder_contains: annotations.csv
+  rename_vars:
+    default: Generic.
+    index: Frame.index
+    timestamp: Frame.time
+    confidence: Frame.confidence
+    id: Frame.eye
+    norm_pos_: PixelNormal.
+    ellipse_center_: EllipseCenter.
+    ellipse_axis_: EllipseAxis.
+    sphere_center_: SphereCenter.
+    circle_3d_center_: Position.
+    circle_3d_normal_: Normal.
+    theta: Polar.theta
+    phi: Polar.phi
+
+- filename: gaze_positions.csv
+  subfolder_contains: annotations.csv
+  rename_vars:
+    default: Generic.
+    index: Frame.index
+    timestamp: Frame.time
+    confidence: Frame.confidence
+    norm_pos_: PixelNormal.
+    eye_center0_: LeftEye.Pos.
+    eye_center1_: RightEye.Pos.
+    eye_normal0_: LeftEye.Norm.
+    eye_normal1_: RightEye.Norm.
+
+- filename: export_info.csv
+  subfolder_contains: annotations.csv
+
+- filename: blinks.csv
+  subfolder_contains: annotations.csv
+  
+- filename: world.intrinsics
+  filetype: msgpack
+
+- filename: world_timestamps.npy
+
+- filename: world.mp4
+  format:
+    channels: rgb
+    dtype: uint8
+
+- filename: eye0.mp4
+  format:
+    channels: gray
+
+- filename: eye1.mp4
+  format:
+    channels: gray
+
+- filename: pupil_data
+  filetype: msgpack
+
+- filename: annotations
+  filetype: msgpack
+  
+- filename: pupil_timestamps.npy
+- filename: gaze_timestamps.npy
+- filename: notify_timestamps.npy
+- filename: gaze_timestamps.npy

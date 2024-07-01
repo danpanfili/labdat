@@ -1,0 +1,12 @@
+name: BerkeleyOutdoorWalk
+dirname: BerkeleyOutdoorWalk
+hierarchy: [subject, run, source]
+
+trials:
+  source: Pupil
+  filename: annotations
+  build_function: "[{
+  'label':arr[i*2]['label'],
+  'time':[arr[i*2]['timestamp'],arr[i*2+1]['timestamp']],
+  'index':[arr[i*2]['index'],arr[i*2+1]['index']]}
+  for i in range(int(len(arr)/2))]"
