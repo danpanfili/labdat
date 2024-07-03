@@ -1,8 +1,8 @@
 dir:
-  INPUT: /content/example/data
-  OUTPUT: /content/example/output
-  CONFIG: /content/example/cfg
-  SCRIPTS: /content/example/scripts
+  WORKSPACE: Y:\DataPipeline
+  OUTPUT:
+  # NEW_CONFIGS: /content/example/cfg
+  # NEW_SCRIPTS: /content/example/scripts
 
 settings:
   CUDA: yes
@@ -13,9 +13,9 @@ settings:
 
 pipeline:
 - stage: Database
-  name: raw
-  data: raw
-  folder: database
+  dir:
+    data: rawdata
+    database: database
     
   overwrite: true
 

@@ -5,7 +5,7 @@ hierarchy: [subject, run, source]
 trials:
   source: Pupil
   filename: annotations
-  build_function: "[{
+  build_function: "lambda arr:[{
   'label':arr[i*2]['label'],
   'time_start':arr[i*2]['timestamp'],
   'time_end':arr[i*2+1]['timestamp'],

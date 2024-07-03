@@ -15,8 +15,9 @@ for stage in config['pipeline']:
     else:
         print(f"ERROR: Couldn't find stage: {name}")
 
-raw_db = ld.Database.New(config['pipeline'][0])
-raw_db
+raw_db = ld.Database.New(config['pipeline'][0]) # Currently, passing this does nothing
+raw_db.Initialize.Main(config, config['pipeline'][0])
+raw_db.Import.Main()
 
 # from InitializeDatabase import Main as InitDB
 # InitDB(config, config['stages'][0])
