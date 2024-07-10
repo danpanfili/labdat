@@ -1,5 +1,5 @@
 dir:
-  WORKSPACE: Y:\DataPipeline
+  WORKSPACE: Z:\DataPipeline
   OUTPUT:
   # NEW_CONFIGS: /content/example/cfg
   # NEW_SCRIPTS: /content/example/scripts

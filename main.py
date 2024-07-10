@@ -17,7 +17,7 @@ for stage in config['pipeline']:
 
 raw_db = ld.Database.New(config['pipeline'][0]) # Currently, passing this does nothing
 raw_db.Initialize.Main(config, config['pipeline'][0])
-raw_db.Import.Main()
+raw_db.Import.Main(config, config['pipeline'][0])
 
 # from InitializeDatabase import Main as InitDB
 # InitDB(config, config['stages'][0])

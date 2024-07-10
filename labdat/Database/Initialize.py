@@ -1,4 +1,4 @@
-import os, yaml, numpy, pandas, sqlite3, msgpack, glob
+import os, yaml, numpy, pandas, sqlite3, msgpack, glob, pyarrow.csv
 
 def find_folders_at_depth(origin_folder, N):
     results = []
@@ -30,6 +30,7 @@ def LoadConfigs(name, path = ""):
             cfg.append(temp)
 
     return {c['dirname']:c for c in cfg}
+
 
 def Main(config, stage):
     ## Initialization stuff
@@ -70,6 +71,11 @@ def Main(config, stage):
             stage['dir']['database'], 
             f"{experiment['dirname']}.db")
         
+        try:
+            os.makedirs(os.path.join(config['dir']['OUTPUT'], stage['dir']['database']))
+        except:
+            print('Database directory already exists.')
+
         db = sqlite3.connect(db_path)
         df.to_sql('keys', db, if_exists=if_exists)
  
@@ -93,4 +99,35 @@ def Main(config, stage):
 
         trial_df = pandas.DataFrame(trials)
         trial_df.to_sql('trials', db, if_exists=if_exists)
+
+    ## Import Test
+    runs = df.query(f"subject in {config['settings']['SCOPE']['subject']}")
+
+    for run in runs.iloc:
+        if run['source'] not in config['sources']: continue
+
+        for file in config['sources'][run['source']]['files']:
+            if 'subfolder_contains' in file.keys(): 
+                glob_path = glob.glob(os.path.join(run['path'],'**',file['subfolder_contains']), recursive=True)
+                if len(glob_path) > 0:
+                    path = glob.glob(os.path.join(run['path'],'**',file['subfolder_contains']), recursive=True)[0].replace(file['subfolder_contains'], file['filename'])
+                else:
+                    continue
+            else:
+                path = os.path.join(run['path'],file['filename'])
+
+            if not os.path.exists(path): 
+                continue
+
+            if 'positions' in path: 
+                print(f"Loading {file['filename']} for {run['key']}")
+
+                alldat = pyarrow.csv.read_csv(path).to_pandas()
+                if 'rename_vars' in file.keys():
+                    alldat.rename(columns=file['rename_vars'])
+                    # generics = {file['rename_vars']['default']col for col in df.columns if col not in file['rename_vars'].keys()}
+
+                table = '_'.join([run['key'],file['filename']])
+                alldat.to_sql(table, db, if_exists='replace')
+
     db.close()
